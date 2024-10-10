@@ -63,7 +63,8 @@ Setting up Database
 
 CREATE database TestCompanion;
 CREATE  user 'TestCompanion'@'localhost' identified by 'TestCompanion';
-
+GRANT ALL privileges on TestCompanion.* to 'TestCompanion'@'localhost';
+FLUSH privileges;
 
 Create a virtual environment:
 virtualenv venv
