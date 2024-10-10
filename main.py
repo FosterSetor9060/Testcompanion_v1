@@ -17,8 +17,6 @@ import os
 
 from model import *
 
-#app = Flask(__name__)
-
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 jwt = JWTManager(app)
 # db.init_app(app)
