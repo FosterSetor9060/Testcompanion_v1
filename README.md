@@ -79,8 +79,8 @@ Run the migrations to set up the database schema:
 
 flask db upgrade
 Start the development server:
-
 flask run
+Alternatively the source code has a handler that creates the tables once any of the models are called, so you may ignore running the migrations command.
 
 Usage
  Users
