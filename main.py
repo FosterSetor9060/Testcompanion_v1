@@ -928,7 +928,7 @@ def testlist(test_id):
 
 @app.route('/login', methods=['GET'])
 def login():
-    """Login user."""
+    """Login user and create the jwt  token"""
     data = {"email":"pascallino90@gmail.com", "password":"fake pwd"}
     if not data:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
