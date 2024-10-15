@@ -29,6 +29,7 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 
 
+#db.init_app(app)
 
 with app.app_context():
     db.create_all()
@@ -928,7 +929,7 @@ def testlist(test_id):
 
 @app.route('/login', methods=['GET'])
 def login():
-    """Login user and create the jwt  token"""
+    """Login user."""
     data = {"email":"pascallino90@gmail.com", "password":"fake pwd"}
     if not data:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
