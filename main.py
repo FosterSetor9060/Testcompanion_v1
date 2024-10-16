@@ -686,7 +686,7 @@ def signin_post():
 
     # Set the JWT token as a cookie
     response = jsonify(access_token=access_token)
-    response.set_cookie('jwtToken', value=access_token, httponly=False, secure=True, path='/', samesite='Strict')  # Adjust secure=True based on your deployment
+    response.set_cookie('jwtToken', value=access_token, httponly=False, secure=False, path='/')
     return response
     return render_template('Signin.html')
 
