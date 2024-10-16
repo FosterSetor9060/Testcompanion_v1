@@ -2,7 +2,6 @@ from flask import flash, request, render_template, jsonify, url_for, redirect, m
 import json
 from flask_mail import Mail, Message
 import MySQLdb
-from reportlab.pdfgen import canvas
 from sqlalchemy.orm import aliased
 import hashlib
 from datetime import timedelta
@@ -745,7 +744,7 @@ def resend_confirm_mail(user_id):
         return jsonify({'error', 'Unauthorized user'}),  401
     user = User.query.filter_by(userid=userid).first()
     if user:
-        send_confirm_mail(user.email, 'setorf@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
+g       send_confirm_mail(user.email, 'setorf@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
         return jsonify({'success': 'success', 'message': 'Confirmation mail sent'})
 
 
