@@ -2,7 +2,7 @@ from flask import flash, request, render_template, jsonify, url_for, redirect, m
 import json
 from flask_mail import Mail, Message
 import MySQLdb
-from reportlab.pdfgen import canvas
+# from reportlab.pdfgen import canvas
 from sqlalchemy.orm import aliased
 import hashlib
 from datetime import timedelta
@@ -410,7 +410,7 @@ def saveuser(user_id):
             }
             try:
                 run_time = datetime.now() + timedelta(seconds=10) 
-                scheduler.add_job(id=f'send_newuser_mail{pwd}', func=send_newuser_mail, args=(pwd, fn, email, 'luvpascal.ojukwu@yahoo.com', com.company_name), trigger='date', run_date=run_time)
+                scheduler.add_job(id=f'send_newuser_mail{pwd}', func=send_newuser_mail, args=(pwd, fn, email, 'setorf@yahoo.com', com.company_name), trigger='date', run_date=run_time)
                 # send_test_mail(test_day_id, applicant.user_id)
             except:
                 return jsonify({'message': 'INFO: An error occured while sending mail'})
@@ -697,7 +697,7 @@ def signup_post():
                 last_name=last_name, role='admin')
     company.users.append(user)
     db.session.commit()
-    send_confirm_mail(email, 'luvpascal.ojukwu@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
+    send_confirm_mail(email, 'setorf@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
     return jsonify({'user_id': user.userid , 'message': 'Thank you for signing up, please check your email to complete your registration'})
     #""" except:
     #""" return jsonify({'error': 'A error occured please try again '})
@@ -728,7 +728,7 @@ def resend_confirm_mail(user_id):
         return jsonify({'error', 'Unauthorized user'}),  401
     user = User.query.filter_by(userid=userid).first()
     if user:
-        send_confirm_mail(user.email, 'luvpascal.ojukwu@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
+        send_confirm_mail(user.email, 'setorf@yahoo.com', user.userid, user.last_name + ' ' + user.first_name)
         return jsonify({'success': 'success', 'message': 'Confirmation mail sent'})
 
 
@@ -742,7 +742,7 @@ def send_confirm_mail(recipient_email, admin_email, user_id, fullname):
     app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
     app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
     mail = Mail(app)
-    msg = Message('Successful - Welcome to TestCompanion', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+    msg = Message('Successful - Welcome to TestCompanion', sender='setorf@yahoo.com', recipients=recipients, html=html_content)
     mail.send(msg)
 
 
@@ -1297,7 +1297,7 @@ def send_applicantmail(recipient_email, applicantname, testdate, duration, testN
             app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
             app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
-        msg = Message(testName, sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+        msg = Message(testName, sender='setorf@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
 @app.route('/Addtestuser/<test_id>/<user_id>', methods=['GET'])
 @login_required
@@ -1369,7 +1369,7 @@ def send_canceltest_mail(name, testname, recipient_email):
         app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
         app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
-        msg = Message('Test Cancellation Notice', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+        msg = Message('Test Cancellation Notice', sender='setorf@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
 
 def send_reschedule_mail(name, new_test_date, testname, recipient_email):
@@ -1384,7 +1384,7 @@ def send_reschedule_mail(name, new_test_date, testname, recipient_email):
         app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
         app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
-        msg = Message('Test Reschedule Notification', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+        msg = Message('Test Reschedule Notification', sender='setorf@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
 
 def send_newuser_mail(pwd, fn, recipient_email, email, companyname):
@@ -1399,7 +1399,7 @@ def send_newuser_mail(pwd, fn, recipient_email, email, companyname):
         app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
         app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
-        msg = Message('New Member Registration - TestCompanion', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+        msg = Message('New Member Registration - TestCompanion', sender='setorf@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
         
 def send_test_mail(test_day_id, user_id):
@@ -1435,7 +1435,7 @@ def send_test_mail(test_day_id, user_id):
             app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
             app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
-        msg = Message(testName +' GRADED', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
+        msg = Message(testName +' GRADED', sender='setorf@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
 
 
