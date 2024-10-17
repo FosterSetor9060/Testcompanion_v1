@@ -153,8 +153,8 @@ class User(UserMixin, db.Model):
         self.userid = str(uuid4())
         super().__init__(*args, **kwargs)
 
-    '''  def __repr__(self):
-    # return f"<User id: {self.id} Names: {self.first_name} {self.last_name}> '''
+    # def __repr__(self):
+    # return f"<User id: {self.id} Names: {self.first_name} {self.last_name}>"
     
     def is_authenticated(self):
         return True  # Assuming all users are authenticated
