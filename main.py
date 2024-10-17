@@ -2,7 +2,7 @@ from flask import flash, request, render_template, jsonify, url_for, redirect, m
 import json
 from flask_mail import Mail, Message
 import MySQLdb
-from reportlab.pdfgen import canvas
+# from reportlab.pdfgen import canvas
 from sqlalchemy.orm import aliased
 import hashlib
 from datetime import timedelta

@@ -11,5 +11,5 @@ class Config:
     password = 'TestCompanion'
     db = f'mysql+pymysql://TestCompanion:{password}@localhost:3306/TestCompanion'
     SQLALCHEMY_DATABASE_URI = db
-    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(base_url, 'Database.db') sqllite connection string
+    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(base_url, 'Database.db')
 
