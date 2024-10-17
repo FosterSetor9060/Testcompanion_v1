@@ -1190,7 +1190,7 @@ def resendmailpost(test_day_id, user_id):
             try:
                 # send_applicantmail(email, fullname, teststat.test_date, teststat.duration, test.test_name, 'sample company', 'Test lab',
                                 # user.email, user.first_name, applicant.user_id, applicant.secret_key)
-                run_time = datetime.now() + timedelta(seconds=7) 
+                run_time = datetime.now() + timedelta(seconds=10) 
                 # send_applicantmail(email, fullname, formatted_datetime, duration, test.test_name, 'sample company', 'Test lab',
                 #                user.email, user.first_name, applicant.user_id, applicant.secret_key)
                 scheduler.add_job(id=f'send_applicantmail{datetime.now()}', func=send_applicantmail, args=(email, fullname, teststat.test_date, teststat.duration, test.test_name, com.company_name, com.company_address,
@@ -1261,7 +1261,7 @@ def Addtestuserpost(test_id, user_id):
             applicant = Applicanttest(user_email=email, start_date=None, fullname=fullname)
             teststat.applicanttests.append(applicant)
             try:
-                run_time = datetime.now() + timedelta(seconds=7) 
+                run_time = datetime.now() + timedelta(seconds=10) 
                 # send_applicantmail(email, fullname, formatted_datetime, duration, test.test_name, 'sample company', 'Test lab',
                 #                user.email, user.first_name, applicant.user_id, applicant.secret_key)
                 scheduler.add_job(id=f'send_applicantmail{datetime.now()}', func=send_applicantmail, args=(email, fullname, formatted_datetime, duration, test.test_name, com.company_name, com.company_address,
