@@ -120,7 +120,7 @@
               <span style="font-size: 25px;">  Dashboard</span></a>     </h4> 
         </div>
         <div style="float: right;">
-            <a href="{{ url_for('home') }}" class="signout">  <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+            <a href="{{ url_for('app_views.home') }}" class="signout">  <i class="fa fa-home" aria-hidden="true"></i> Home</a>
              
         </div>
     </header>
@@ -129,7 +129,7 @@
         <a href="{{ url_for('userboard', user_id=user_id) }}"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
         <a href="{{ url_for('emailboard', user_id=user_id) }}"><i class="fa fa-envelope" aria-hidden="true"></i> Mail Settings</a>
         <a href="{{ url_for('dashboard', user_id=user_id) }}"><i class="fa fa-book" aria-hidden="true"></i> Tests</a>
-        <a href="{{ url_for('profileboard', user_id=user_id) }}"><i class="fa fa-male" aria-hidden="true"></i>  Profile</a>
+        <a href="{{ url_for('app_views.profileboard', user_id=user_id) }}"><i class="fa fa-male" aria-hidden="true"></i>  Profile</a>
     </div>
 
     <div id="content">

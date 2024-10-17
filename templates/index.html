@@ -54,7 +54,7 @@
     </p>
     <br>
     {% if not current_user.is_authenticated %}
-      <a href="{{ url_for('signup') }}" class="action_btn">SIGN UP NOW</a>
+      <a href="{{ url_for('app_views.signup') }}" class="action_btn">SIGN UP NOW</a>
      {% else %}
      <a href="{{ url_for('mainboard', user_id=current_user.userid ) }}" class="action_btn">View Dashboard </a>
       {% endif %}

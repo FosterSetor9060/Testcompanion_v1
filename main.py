@@ -15,6 +15,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from flask_apscheduler import APScheduler
 import os
 import shutil
+from api import app_views
 
 from model import *
 
@@ -31,7 +32,7 @@ login_manager.init_app(app)
 scheduler = APScheduler()
 scheduler.init_app(app)
 
-
+app.register_blueprint(app_views, url_prefix='/')
 #db.init_app(app)
 
 with app.app_context():
@@ -53,52 +54,11 @@ def get_mail_status():
     else:
         return ''
 
-@app.route('/home', methods=['GET'], strict_slashes=False)
-def home():
-    return render_template('index.html')
 
-@app.route('/about', methods=['GET'], strict_slashes=False)
-def about():
-    return render_template('About.html')
 
-@app.route('/contact', methods=['GET'], strict_slashes=False)
-def contact():
-    return render_template('Contact.html')
 
-@app.route('/features', methods=['GET'], strict_slashes=False)
-def features():
-    return render_template('Features.html')
 
-@app.route('/signup', methods=['GET'], strict_slashes=False)
-def signup():
-    return render_template('Signup.html')
-
-@app.route('/signin', methods=['GET'], strict_slashes=False)
-def signin():
-    logout_user()
-    return render_template('Signin.html')
-
-@app.route('/sendcontactform', methods=['POST'], strict_slashes=False)
-def sendcontactform():
-    app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USE_SSL'] = False
-    app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-    app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
-    mail = Mail(app)
-    json_data = request.json
-    body = f"{json_data['message']} \n\nEmail: {json_data['email']}\n\nRegards,\n{json_data['name']} "
-    msg = Message('Customer Mail', sender='luvpascal.ojukwu@yahoo.com', recipients=['luvpascal.ojukwu@yahoo.com'],body=body)
-    mail.send(msg)
-    response_data = {
-                'status': 'success',
-                'message': 'Thank you for reaching out to us, we have received your message, we will get in touch with you soon'
-            }
-
-    return jsonify(response_data), 200
-
-@app.route('/profileboard/<user_id>', methods=['GET'], strict_slashes=False)
+""" @app.route('/profileboard/<user_id>', methods=['GET'])
 @login_required
 def profileboard(user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -114,8 +74,8 @@ def profileboard(user_id):
                                ln=user.last_name,
                                role=user.role,
                                user_id=user_id)
-
-@app.route('/get_profile/<user_id>', methods=['POST'], strict_slashes=False)
+ """
+@app.route('/get_profile/<user_id>', methods=['POST'])
 @jwt_required()
 def get_profile(user_id):
     M = User.query.filter_by(userid=user_id).first()
@@ -132,7 +92,7 @@ def get_profile(user_id):
          json_data['message'] = 'An error Occured, couldnt retrieve your profile'
          return  jsonify(json_data), 500
 
-@app.route('/get_company/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/get_company/<user_id>', methods=['POST'])
 @jwt_required()
 def get_company(user_id):
     M = User.query.filter_by(userid=user_id).first()
@@ -153,7 +113,7 @@ def get_company(user_id):
             return  jsonify(json_data), 500
 
 
-@app.route('/savecompany/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/savecompany/<user_id>', methods=['POST'])
 @jwt_required()
 def savecompany(user_id):
     try:
@@ -190,7 +150,7 @@ def savecompany(user_id):
         
         
 
-@app.route('/saveprofile/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/saveprofile/<user_id>', methods=['POST'])
 @jwt_required()
 def saveprofile(user_id):
     try:
@@ -243,7 +203,7 @@ def saveprofile(user_id):
       return jsonify({'error': str(e)})
         
 
-@app.route('/testmail/<email_id>/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/testmail/<email_id>/<user_id>', methods=['POST'])
 @jwt_required()
 def testmail(email_id, user_id):
     try:
@@ -272,7 +232,7 @@ def testmail(email_id, user_id):
 
         
 
-@app.route('/updatemailstatus', methods=['POST'], strict_slashes=False)
+@app.route('/updatemailstatus', methods=['POST'])
 @jwt_required()
 def updatemailstatus():
     direction = request.json
@@ -300,7 +260,7 @@ def updatemailstatus():
             return jsonify({'status': 'error'})
 
 
-@app.route('/deletemail/<email_id>', methods=['POST'], strict_slashes=False)
+@app.route('/deletemail/<email_id>', methods=['POST'])
 @jwt_required()
 def deletemail(email_id):
     data = request.get_json()
@@ -314,7 +274,7 @@ def deletemail(email_id):
     
      
 
-@app.route('/get_mail/<email_id>', methods=['POST'], strict_slashes=False)
+@app.route('/get_mail/<email_id>', methods=['POST'])
 @jwt_required()
 def get_mail(email_id):
     M = Emailserver.query.filter_by(emailid=email_id).first()
@@ -337,7 +297,7 @@ def get_mail(email_id):
          json_data['message'] = 'An error Occured, couldnt retrieve user data'
          return  jsonify(json_data), 500
 
-@app.route('/get_user/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/get_user/<user_id>', methods=['POST'])
 @jwt_required()
 def get_user(user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -355,7 +315,7 @@ def get_user(user_id):
          json_data['message'] = 'An error Occured, couldnt retrieve user data'
          return  jsonify(json_data), 500
  
-@app.route('/deleteuser/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/deleteuser/<user_id>', methods=['POST'])
 @jwt_required()
 def deleteuser(user_id):
     data = request.get_json()
@@ -414,7 +374,7 @@ def deleteuser(user_id):
     
      
      
-@app.route('/saveuser/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/saveuser/<user_id>', methods=['POST'])
 @jwt_required()
 def saveuser(user_id):
     try:
@@ -488,7 +448,7 @@ def saveuser(user_id):
         })
         
 
-@app.route('/userboard/<user_id>', methods=['GET', 'POST'], strict_slashes=False)
+@app.route('/userboard/<user_id>', methods=['GET', 'POST'])
 @login_required
 def userboard(user_id):
     count = 1
@@ -535,7 +495,7 @@ def userboard(user_id):
                            companyname='', user_id=user_id)
 
     render_template('Userdashboard.html', user_id=user_id)
-@app.route('/emailboard/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/emailboard/<user_id>', methods=['GET'])
 @login_required
 def emailboard(user_id):
     count = 1
@@ -572,7 +532,7 @@ def emailboard(user_id):
                            companyname='', user_id=user_id)
 
 
-@app.route('/savemail/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/savemail/<user_id>', methods=['POST'])
 @jwt_required()
 def savemail(user_id):
     try:
@@ -659,7 +619,7 @@ def savemail(user_id):
         
 
 
-@app.route('/mainboard/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/mainboard/<user_id>', methods=['GET'])
 @login_required
 def mainboard(user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -668,11 +628,11 @@ def mainboard(user_id):
         return render_template('Mainboard.html', company_name=com.company_name, user_id=user_id)
     return jsonify({'error': 'bad request'}), 400
 
-@app.route('/Registrationsuccess/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/Registrationsuccess/<user_id>', methods=['GET'])
 def Registrationsuccess(user_id):
     return render_template('Registrationsuccess.html', user_id=user_id)
 
-@app.route('/get_id/<email>/<pwd>', methods=['POST'], strict_slashes=False)
+@app.route('/get_id/<email>/<pwd>', methods=['POST'])
 def get_id(email, pwd):
     
     password_ = hashlib.md5(pwd.encode()).hexdigest()
@@ -682,7 +642,7 @@ def get_id(email, pwd):
         return jsonify({"message": "Invalid username or password"}), 401
     return jsonify({'user_id': user.userid})
 
-@app.route('/signin_post', methods=['POST'], strict_slashes=False)
+@app.route('/signin_post', methods=['POST'])
 def signin_post():
     data = request.json
     if not data:
@@ -713,7 +673,7 @@ def signin_post():
     # Make the response with the cookie
     return make_response(response, 200)
 
-@app.route('/signup_post', methods=['POST'], strict_slashes=False)
+@app.route('/signup_post', methods=['POST'])
 def signup_post():
     #try:
     signup_data = request.json
@@ -742,7 +702,7 @@ def signup_post():
     #""" except:
     #""" return jsonify({'error': 'A error occured please try again '})
 
-@app.route('/testcompanion_confirm/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/testcompanion_confirm/<user_id>', methods=['GET'])
 def testcompanion_confirm(user_id):
     user = User.query.filter_by(userid=user_id).first()
     confirm = request.args.get('confirm')
@@ -760,7 +720,7 @@ def testcompanion_confirm(user_id):
             return jsonify({'error': 'An error occured'})
     return jsonify({'error': 'link has expired'})
 
-@app.route('/resend_confirm_mail/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/resend_confirm_mail/<user_id>', methods=['POST'])
 def resend_confirm_mail(user_id):
     u = request.json
     userid = u['user_id']
@@ -786,7 +746,7 @@ def send_confirm_mail(recipient_email, admin_email, user_id, fullname):
     mail.send(msg)
 
 
-@app.route('/computescore/<test_day_id>', methods=['POST'], strict_slashes=False)
+@app.route('/computescore/<test_day_id>', methods=['POST'])
 @jwt_required()
 def computescore(test_day_id):
     applicants = Applicanttest.query.filter_by(test_day_id=test_day_id, test_status='pending').all()
@@ -835,7 +795,7 @@ def computescore(test_day_id):
                         return jsonify({'message': 'INFO: An error occured while sending mail to ' + applicant.user_email + 'please try again or check that the email is correct'})
     return jsonify({'message': 'All Scores computed successlfully'})
 
-@app.route('/testsummary/<test_id>/<test_day_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/testsummary/<test_id>/<test_day_id>/<user_id>', methods=['GET'])
 @login_required
 def testsummary(test_id, test_day_id, user_id):
     test = Test.query.filter_by(test_id=test_id).first()
@@ -902,7 +862,7 @@ def testsummary(test_id, test_day_id, user_id):
     return render_template('Testsummary.html', testname=test.test_name, test_id=test_id
                            ,test_day_id=test_day_id, user_id=user_id,  applicants=applicant_data, count=len(allapplicants))
 
-@app.route('/testlist/<test_id>', methods=['GET', 'POST'], strict_slashes=False)
+@app.route('/testlist/<test_id>', methods=['GET', 'POST'])
 @login_required
 def testlist(test_id):
     """test list."""
@@ -959,7 +919,7 @@ def testlist(test_id):
                            test_id=test_id, testname=test.test_name, user_id=test.userid, sd=sd, ed=ed, du=du)
 
 
-@app.route('/login', methods=['GET'], strict_slashes=False)
+@app.route('/login', methods=['GET'])
 def login():
     """Login user."""
     data = {"email":"pascallino90@gmail.com", "password":"fake pwd"}
@@ -986,7 +946,7 @@ def login():
     login_user(user, remember=False)
     return response
 
-@app.route('/logout', strict_slashes=False)
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -994,7 +954,7 @@ def logout():
     # return redirect(url_for('index'))
 
 
-@app.route('/post_selection', methods=['POST'], strict_slashes=False)
+@app.route('/post_selection', methods=['POST'])
 @jwt_required()
 def post_selection():
     json_data = request.get_json()
@@ -1030,7 +990,7 @@ def post_selection():
             db.session.commit()
             return jsonify({'message': 'posted'})  
 #get question couint 
-@app.route('/question_count/<test_day_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/question_count/<test_day_id>/<user_id>', methods=['GET'])
 @jwt_required()
 def question_count(test_day_id, user_id):
     test = Teststat.query.filter_by(test_day_id=test_day_id).first()
@@ -1061,7 +1021,7 @@ def validate_and_format_datetime(date, time):
         return combined_datetime
     except ValueError:
         return None
-@app.route('/dashboard/<user_id>', methods=['GET', 'POST'], strict_slashes=False)
+@app.route('/dashboard/<user_id>', methods=['GET', 'POST'])
 @login_required
 def dashboard(user_id):
     # get the company id through the user id
@@ -1108,14 +1068,14 @@ def dashboard(user_id):
     return render_template('Dashboard.html', test=test, i=0, pages=pages,
                            companyname='', user=user, users=users, user_id=user_id, sd=sd, ed=ed)
 
-@app.route('/applicant/<test_day_id>', methods=['GET'], strict_slashes=False)
+@app.route('/applicant/<test_day_id>', methods=['GET'])
 def applicant(test_day_id):
     teststat = Teststat.query.filter_by(test_day_id=test_day_id).first()
     if teststat:
         return render_template('applicant.html', duration=teststat.duration)
     return jsonify({'error': 'cant load page'})
 
-@app.route('/savetest/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/savetest/<user_id>', methods=['POST'])
 @jwt_required()
 def savetest(user_id):
     try:
@@ -1149,7 +1109,7 @@ def savetest(user_id):
             'error': 'Unauthorized user'
         })
 
-@app.route('/deletemaintest/<test_id>', methods=['POST'], strict_slashes=False)
+@app.route('/deletemaintest/<test_id>', methods=['POST'])
 @jwt_required()
 def deletemaintest(test_id):
     data = request.get_json()
@@ -1199,7 +1159,7 @@ def deletemaintest(test_id):
         return jsonify({'message': 'All test records have been deleted', 'status': 'success'})
     return jsonify({'message': 'An error occured while performing this operation','status': 'error, not a valid test'})
 
-@app.route('/resendmailget/<test_day_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/resendmailget/<test_day_id>/<user_id>', methods=['GET'])
 @login_required
 def resendmailget(test_day_id, user_id):
     teststat = Teststat.query.filter_by(test_day_id=test_day_id).first()
@@ -1207,7 +1167,7 @@ def resendmailget(test_day_id, user_id):
         return jsonify({'error': 'Unauthorized user'})
     
     return render_template('Resendemail.html', test_id=teststat.test_id, test_day_id=test_day_id, user_id=user_id)
-@app.route('/resendmailpost/<test_day_id>/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/resendmailpost/<test_day_id>/<user_id>', methods=['POST'])
 @jwt_required()
 def resendmailpost(test_day_id, user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -1243,7 +1203,7 @@ def resendmailpost(test_day_id, user_id):
     
     db.session.commit()
     return jsonify({'message': 'Saved successfully'})
-@app.route('/deletetestday/<test_day_id>', methods=['POST'], strict_slashes=False)
+@app.route('/deletetestday/<test_day_id>', methods=['POST'])
 @jwt_required()
 def deletetestday(test_day_id):
     teststat = Teststat.query.filter_by(test_day_id=test_day_id).first()
@@ -1268,7 +1228,7 @@ def deletetestday(test_day_id):
         return jsonify({'message': 'Test deleted successfully'})
     else:
          return jsonify({'error': 'Unauthorized User'})
-@app.route('/Addtestuserpost/<test_id>/<user_id>', methods=['POST'], strict_slashes=False)
+@app.route('/Addtestuserpost/<test_id>/<user_id>', methods=['POST'])
 @jwt_required()
 def Addtestuserpost(test_id, user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -1339,7 +1299,7 @@ def send_applicantmail(recipient_email, applicantname, testdate, duration, testN
         mail = Mail(app)
         msg = Message(testName, sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
-@app.route('/Addtestuser/<test_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/Addtestuser/<test_id>/<user_id>', methods=['GET'])
 @login_required
 def Addtestuser(test_id, user_id):
     test = Test.query.filter_by(test_id=test_id, userid=user_id).first()
@@ -1347,7 +1307,7 @@ def Addtestuser(test_id, user_id):
         return render_template('Addtestuser.html', test_id=test_id, user_id=user_id)
     return jsonify({'error': 'Unauthorized user'})
 
-@app.route('/rescheduletest/<test_day_id>', methods=['GET'], strict_slashes=False)
+@app.route('/rescheduletest/<test_day_id>', methods=['GET'])
 @login_required
 def rescheduletestget(test_day_id):
     teststat = Teststat.query.filter_by(test_day_id=test_day_id).first()
@@ -1357,7 +1317,7 @@ def rescheduletestget(test_day_id):
                             test_day_id=test_day_id, testname=test.test_name, test_id=test.test_id)
     else:
         return jsonify({'error': 'Unauthorized User'})
-@app.route('/rescheduletestpost/<test_day_id>', methods=['POST'], strict_slashes=False)
+@app.route('/rescheduletestpost/<test_day_id>', methods=['POST'])
 @jwt_required()
 def rescheduletestpost(test_day_id):
     # Get the date and time from the POST request
@@ -1479,7 +1439,7 @@ def send_test_mail(test_day_id, user_id):
         mail.send(msg)
 
 
-@app.route('/Timeout/<test_day_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/Timeout/<test_day_id>/<user_id>', methods=['GET'])
 def Timeout(test_day_id, user_id):
     questioncount = 0
     correct_answers = 0
@@ -1531,7 +1491,7 @@ def Timeout(test_day_id, user_id):
     return render_template('Timeout.html', test_day_id=test_day_id)
 
 #fetch question for the user
-@app.route('/get_question/<int:question_num>/<test_day_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/get_question/<int:question_num>/<test_day_id>/<user_id>', methods=['GET'])
 @jwt_required()
 def get_question(question_num, test_day_id, user_id):
     # Check if the question number exists in the data
@@ -1590,7 +1550,7 @@ def get_question(question_num, test_day_id, user_id):
     else:
         return jsonify({'error': 'Question not found'}), 404
 
-@app.route('/get_data/<test_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/get_data/<test_id>/<user_id>', methods=['GET'])
 @jwt_required()
 def get_data(test_id, user_id):
     json_data = {}
@@ -1632,7 +1592,7 @@ def get_data(test_id, user_id):
         json_data['Lnum'] = question.Qnum
     return jsonify(json_data)
 
-@app.route('/get_test/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/get_test/<user_id>', methods=['GET'])
 def get_test(user_id):
     tests = Test.query.filter_by(userid=user_id).order_by(desc(Test.created)).all()
     if tests:
@@ -1641,7 +1601,7 @@ def get_test(user_id):
     else:
         return jsonify({'error': 'No tests found'})
     
-@app.route('/posttest_getquestions', methods=['POST'], strict_slashes=False)
+@app.route('/posttest_getquestions', methods=['POST'])
 @jwt_required()
 def posttest_getquestions():
     data = request.json
@@ -1698,7 +1658,7 @@ def posttest_getquestions():
             
             
 
-@app.route('/editquestion/<test_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/editquestion/<test_id>/<user_id>', methods=['GET'])
 def editquestion(test_id, user_id):
     test = Test.query.filter_by(test_id=test_id).first()
     if test:
@@ -1711,7 +1671,7 @@ def editquestion(test_id, user_id):
                     return render_template('computescoremessage.html', message=message, user_id=user_id)
         return render_template('editquestion.html', test_id=test_id, testname=test.test_name, user_id=user_id)
     return jsonify({'error': 'Unauthorized user'})
-@app.route('/authenticate_applicant/<user_id>/<secret_key>', methods=['POST'], strict_slashes=False)
+@app.route('/authenticate_applicant/<user_id>/<secret_key>', methods=['POST'])
 def authenticate_applicant(user_id, secret_key):
     applicant = Applicanttest.query.filter_by(user_id=user_id).first()
     if not applicant:
@@ -1732,7 +1692,7 @@ def authenticate_applicant(user_id, secret_key):
     # Make the response with the cookie
     return make_response(response, 200)
 
-@app.route('/taketest/<user_id>/<key>', methods=['GET'], strict_slashes=False)
+@app.route('/taketest/<user_id>/<key>', methods=['GET'])
 def taketest(user_id, key):
     #remember to set this token on the start page for the test
     # an api will veryfy the access token then open the main 
@@ -1764,11 +1724,11 @@ def taketest(user_id, key):
     else:
         return jsonify({'error': 'Not Authorized'})  
 
-@app.route('/question/<test_id>/<user_id>', methods=['GET'], strict_slashes=False)
+@app.route('/question/<test_id>/<user_id>', methods=['GET'])
 def question_get(test_id, user_id):
     test = Test.query.filter_by(test_id=test_id).first()
     return render_template('question.html', test_id=test_id, user_id=user_id, testname=test.test_name)
-@app.route('/question_post_delete', methods=['POST'], strict_slashes=False)
+@app.route('/question_post_delete', methods=['POST'])
 @jwt_required()
 def question_post_delete():
     base_url = os.path.dirname(os.path.abspath(__name__))
@@ -1811,7 +1771,7 @@ def question_post_delete():
         db.session.commit()
         return jsonify({'message': 'Question deleted sucessfully'})
     return jsonify({'error': 'Nothing to delete'})
-@app.route('/question_post', methods=['POST'], strict_slashes=False)
+@app.route('/question_post', methods=['POST'])
 @jwt_required()
 def question_post():
     args = ''
@@ -1891,7 +1851,7 @@ def question_post():
         return jsonify(response_data) 
     return jsonify({'status': 'error', 'message': 'Invalid request method'}), 400
 
-@app.route('/uploadimages/<test_id>', methods=['POST'], strict_slashes=False)
+@app.route('/uploadimages/<test_id>', methods=['POST'])
 @jwt_required()
 def uploadimages(test_id):
     base_url = os.path.dirname(os.path.abspath(__name__))
@@ -1925,10 +1885,6 @@ def uploadimages(test_id):
     response_data = {'status': 'success', 'message': 'Images uploaded successfully'}
     return jsonify(response_data)
 
-@app.route('/home', methods=['GET'], strict_slashes=False)
-@app.route('/', methods=['GET'], strict_slashes=False)
-def homepage():
-    return render_template('index.html')
 
 if __name__ == '__main__':
     scheduler.start()
