@@ -1193,7 +1193,7 @@ def resendmailpost(test_day_id, user_id):
                 run_time = datetime.now() + timedelta(seconds=7) 
                 # send_applicantmail(email, fullname, formatted_datetime, duration, test.test_name, 'sample company', 'Test lab',
                 #                user.email, user.first_name, applicant.user_id, applicant.secret_key)
-                scheduler.add_job(id=f'send_applicantmail{email}', func=send_applicantmail, args=(email, fullname, teststat.test_date, teststat.duration, test.test_name, com.company_name, com.company_address,
+                scheduler.add_job(id=f'send_applicantmail{datetime.now()}', func=send_applicantmail, args=(email, fullname, teststat.test_date, teststat.duration, test.test_name, com.company_name, com.company_address,
                                 user.email, user.first_name, applicant.user_id, applicant.secret_key), trigger='date', run_date=run_time)
 
                 db.session.commit()
@@ -1264,7 +1264,7 @@ def Addtestuserpost(test_id, user_id):
                 run_time = datetime.now() + timedelta(seconds=7) 
                 # send_applicantmail(email, fullname, formatted_datetime, duration, test.test_name, 'sample company', 'Test lab',
                 #                user.email, user.first_name, applicant.user_id, applicant.secret_key)
-                scheduler.add_job(id=f'send_applicantmail{email}', func=send_applicantmail, args=(email, fullname, formatted_datetime, duration, test.test_name, com.company_name, com.company_address,
+                scheduler.add_job(id=f'send_applicantmail{datetime.now()}', func=send_applicantmail, args=(email, fullname, formatted_datetime, duration, test.test_name, com.company_name, com.company_address,
                                 user.email, user.first_name, applicant.user_id, applicant.secret_key), trigger='date', run_date=run_time)
                 db.session.commit()
             except Exception as e:
