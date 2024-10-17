@@ -739,8 +739,8 @@ def send_confirm_mail(recipient_email, admin_email, user_id, fullname):
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USE_SSL'] = False
-    app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-    app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+    app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+    app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
     mail = Mail(app)
     msg = Message('Successful - Welcome to TestCompanion', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
     mail.send(msg)
@@ -1294,8 +1294,8 @@ def send_applicantmail(recipient_email, applicantname, testdate, duration, testN
             app.config['MAIL_PORT'] = 587
             app.config['MAIL_USE_TLS'] = True
             app.config['MAIL_USE_SSL'] = False
-            app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-            app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+            app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+            app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
         msg = Message(testName, sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
@@ -1366,8 +1366,8 @@ def send_canceltest_mail(name, testname, recipient_email):
         app.config['MAIL_PORT'] = 587
         app.config['MAIL_USE_TLS'] = True
         app.config['MAIL_USE_SSL'] = False
-        app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-        app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+        app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+        app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
         msg = Message('Test Cancellation Notice', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
@@ -1381,8 +1381,8 @@ def send_reschedule_mail(name, new_test_date, testname, recipient_email):
         app.config['MAIL_PORT'] = 587
         app.config['MAIL_USE_TLS'] = True
         app.config['MAIL_USE_SSL'] = False
-        app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-        app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+        app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+        app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
         msg = Message('Test Reschedule Notification', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
@@ -1396,8 +1396,8 @@ def send_newuser_mail(pwd, fn, recipient_email, email, companyname):
         app.config['MAIL_PORT'] = 587
         app.config['MAIL_USE_TLS'] = True
         app.config['MAIL_USE_SSL'] = False
-        app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-        app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+        app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+        app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
         msg = Message('New Member Registration - TestCompanion', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
@@ -1432,8 +1432,8 @@ def send_test_mail(test_day_id, user_id):
             app.config['MAIL_PORT'] = 587
             app.config['MAIL_USE_TLS'] = True
             app.config['MAIL_USE_SSL'] = False
-            app.config['MAIL_USERNAME'] = 'luvpascal.ojukwu@yahoo.com'
-            app.config['MAIL_PASSWORD'] = 'nvfolnadxvdepvxk'
+            app.config['MAIL_USERNAME'] = 'setorf@yahoo.com'
+            app.config['MAIL_PASSWORD'] = 'xiafpfiwgbwwzjxw'
         mail = Mail(app)
         msg = Message(testName +' GRADED', sender='luvpascal.ojukwu@yahoo.com', recipients=recipients, html=html_content)
         mail.send(msg)
